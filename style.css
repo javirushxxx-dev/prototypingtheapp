@@ -1,0 +1,23 @@
+body { 
+    background-color: #f0f2f5; 
+    font-family: sans-serif;
+}
+
+/* Make calendar header buttons look nice */
+.fc .fc-button-primary { 
+    background-color: #8b5cf6; 
+    border-color: #7c3aed; 
+}
+.fc .fc-button-primary:hover { 
+    background-color: #7c3aed; 
+    border-color: #7c3aed; 
+}
+.fc .fc-today-button { 
+    background-color: #6b7280; 
+    border-color: #6b7280; 
+}
+.fc .fc-today-button:disabled {
+    background-color: #6b7280; 
+    border-color: #6b7280; 
+}
+
