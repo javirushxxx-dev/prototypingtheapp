@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- The "dark" class will be added here by a script for dark mode -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,47 +10,108 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     
     <link rel="stylesheet" href="style.css">
+    
+    <!-- This script enables Dark Mode based on your system settings -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+    </script>
+    
     <script type="module" src="app.js" defer></script>
-
 </head>
-<body class="antialiased text-gray-800">
+<body class="antialiased text-gray-800 dark:text-gray-200">
 
-    <div id="config-error-screen" class="hidden fixed inset-0 bg-red-900 text-white p-8 flex items-center justify-center z-50">
-        </div>
+    <!-- Config Error Overlay -->
+    <div id="config-error-screen" class="hidden fixed inset-0 ..."></div>
 
-    <div id="auth-screen" class="min-h-screen flex items-center justify-center bg-gray-900 text-white p-4">
-        </div>
+    <!-- Auth Screen -->
+    <div id="auth-screen" class="screen min-h-screen ..."></div>
     
-    <div id="dashboard-screen" class="hidden">
-        </div>
-    
-    <div id="client-management-screen" class="hidden">
-        </div>
-
-    <div id="scheduling-screen" class="hidden flex flex-col h-screen">
-        <header class="flex items-center p-4 border-b border-gray-300 bg-white shadow-sm flex-shrink-0">
-            <button id="back-to-dashboard-from-schedule" class="mr-4 p-2 rounded-full hover:bg-gray-200">
-                <svg class="h-6 w-6" xmlns="http://www.w.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-            </button>
-            <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Calendar & Bookings</h1>
-        </header>
-        <main class="flex-grow p-4 bg-white">
-            <div id='calendar' class="h-full"></div>
-        </main>
-    </div>
-
-    <div id="daily-agenda-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 h-full w-full flex items-center justify-center">
-        <div class="relative mx-auto p-5 border w-full max-w-lg shadow-lg rounded-md bg-white">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="agenda-date" class="text-lg font-medium text-gray-900">Appointments for...</h3>
-                <button id="close-agenda-button" class="text-gray-400 hover:text-gray-600">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-            </div>
-            <div id="agenda-event-list" class="space-y-2">
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboard-screen" class="screen hidden overflow-y-auto h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="p-4 sm:p-6 md:p-8">
+            <header class="flex justify-between items-center pb-4 border-b border-gray-300 dark:border-gray-700">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Mission Control</h1>
+                <button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">Log Out</button>
+            </header>
+            <main class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Financials Summary Card -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md md:col-span-2">
+                    <h2 class="font-bold text-lg mb-2 text-gray-800 dark:text-gray-200">Net Profit (All Time)</h2>
+                    <p id="dashboard-profit" class="text-4xl font-bold text-green-500">$0.00</p>
                 </div>
+                <!-- Navigation Cards -->
+                <div id="financials-card" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+                    <h2 class="font-bold text-lg mb-2 text-gray-800 dark:text-gray-200">Financials</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Track income and expenses.</p>
+                </div>
+                <div id="manage-clients-card" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+                    <h2 class="font-bold text-lg mb-2 text-gray-800 dark:text-gray-200">Client Management</h2>
+                    <p class="text-gray-600 dark:text-gray-400">View, add, and edit profiles.</p>
+                </div>
+                <div id="scheduling-card" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+                    <h2 class="font-bold text-lg mb-2 text-gray-800 dark:text-gray-200">Scheduling & Calendar</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Manage your appointments.</p>
+                </div>
+            </main>
         </div>
     </div>
+    
+    <!-- NEW: FINANCIALS SCREEN -->
+    <div id="financials-screen" class="screen hidden overflow-y-auto h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="p-4 sm:p-6 md:p-8">
+            <header class="flex items-center pb-4 border-b border-gray-300 dark:border-gray-700">
+                <button class="back-to-dashboard mr-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Financials</h1>
+            </header>
+
+            <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Summary & Add Form -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- Summary -->
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+                        <h2 class="text-xl font-semibold mb-4">Summary</h2>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center"><p class="text-gray-600 dark:text-gray-400">Total Income:</p><p id="total-income" class="font-bold text-green-500 text-lg">$0.00</p></div>
+                            <div class="flex justify-between items-center"><p class="text-gray-600 dark:text-gray-400">Total Expenses:</p><p id="total-expenses" class="font-bold text-red-500 text-lg">$0.00</p></div>
+                            <hr class="border-gray-200 dark:border-gray-700">
+                            <div class="flex justify-between items-center"><p class="text-gray-800 dark:text-gray-200 font-bold">Net Profit:</p><p id="net-profit" class="font-bold text-lg">$0.00</p></div>
+                            <div class="flex justify-between items-center text-sm"><p class="text-gray-500 dark:text-gray-400">Tax Estimate (20%):</p><p id="tax-estimate" class="font-semibold text-gray-500 dark:text-gray-300">$0.00</p></div>
+                        </div>
+                    </div>
+                    <!-- Add Transaction Form -->
+                    <form id="transaction-form" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md space-y-4">
+                        <h2 class="text-xl font-semibold mb-2">Add Transaction</h2>
+                        <div><label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label><input type="text" id="description" required class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></div>
+                        <div><label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Amount</label><input type="number" id="amount" step="0.01" required class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></div>
+                        <div><label for="date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label><input type="date" id="date" required class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></div>
+                        <fieldset><legend class="block text-sm font-medium text-gray-700 dark:text-gray-300">Type</legend><div class="mt-2 flex gap-4"><label class="flex items-center"><input type="radio" name="type" value="income" checked class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"><span class="ml-2">Income</span></label><label class="flex items-center"><input type="radio" name="type" value="expense" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"><span class="ml-2">Expense</span></label></div></fieldset>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Add Transaction</button>
+                    </form>
+                </div>
+
+                <!-- Right Column: Transaction Lists -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md"><h2 class="text-xl font-semibold mb-4">Income History</h2><div id="income-list" class="space-y-2 max-h-60 overflow-y-auto"></div></div>
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md"><h2 class="text-xl font-semibold mb-4">Expense History</h2><div id="expense-list" class="space-y-2 max-h-60 overflow-y-auto"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Management & Scheduling Screens -->
+    <div id="client-management-screen" class="screen hidden ..."></div>
+    <div id="scheduling-screen" class="screen hidden ..."></div>
+
+    <!-- All Modals -->
+    <div id="edit-client-modal" class="hidden fixed inset-0 ..."></div>
+    <div id="add-event-modal" class="hidden fixed inset-0 ..."></div>
+    <div id="daily-agenda-modal" class="hidden fixed inset-0 ..."></div>
     
 </body>
 </html>
+
+
