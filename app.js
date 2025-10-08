@@ -2,16 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, doc, addDoc, onSnapshot, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ===================================================================================
-// PASTE YOUR FIREBASE CONFIG OBJECT HERE
-// ===================================================================================
-const firebaseConfig = {
-    // apiKey: "...",
-    // authDomain: "...",
-    // projectId: "...",
-    // storageBucket: "...",
-    // messagingSenderId: "...",
-    // appId: "..."
+
+            apiKey: "AIzaSyB8dE-UottjPS0dF92H9pfNLO_PcGU05dE",
+            authDomain: "prototypingtheapp.firebaseapp.com",
+            projectId: "prototypingtheapp",
+            storageBucket: "prototypingtheapp.firebasestorage.app",
+            messagingSenderId: "732357781797",
+            appId: "1:732357781797:web:0ff864827857c15b8312cc",
+            measurementId: "G-VSTGVPP0GD"
+        };
 };
 // ===================================================================================
 
