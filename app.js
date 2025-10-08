@@ -11,8 +11,6 @@ import { getFirestore, collection, doc, addDoc, onSnapshot, getDoc, updateDoc, d
             appId: "1:732357781797:web:0ff864827857c15b8312cc",
             measurementId: "G-VSTGVPP0GD"
         };
-};
-// ===================================================================================
 
 // --- Element References ---
 const configErrorScreen = document.getElementById('config-error-screen');
