@@ -2,8 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, doc, addDoc, onSnapshot, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-            apiKey: "AIzaSyB8dE-UottjPS0dF92H9pfNLO_PcGU05dE",
+const firebaseConfig = {
+            const firebaseConfig = {apiKey: "AIzaSyB8dE-UottjPS0dF92H9pfNLO_PcGU05dE",
             authDomain: "prototypingtheapp.firebaseapp.com",
             projectId: "prototypingtheapp",
             storageBucket: "prototypingtheapp.firebasestorage.app",
@@ -11,6 +11,8 @@ import { getFirestore, collection, doc, addDoc, onSnapshot, getDoc, updateDoc, d
             appId: "1:732357781797:web:0ff864827857c15b8312cc",
             measurementId: "G-VSTGVPP0GD"
         };
+
+
 
 // --- Element References ---
 const configErrorScreen = document.getElementById('config-error-screen');
@@ -26,7 +28,7 @@ if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("...")) {
     
     let currentUserId = null;
     let calendar; 
-    let isCalendarInitialized = false; // Flag to prevent re-initialization
+    let isCalendarInitialized = false;
 
     // --- Get All Other Element References ---
     const authScreen = document.getElementById('auth-screen');
@@ -59,6 +61,13 @@ if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("...")) {
     const cancelAddEventButton = document.getElementById('cancel-add-event-button');
     const eventClientSelect = document.getElementById('event-client-select');
 
+    const dailyAgendaModal = document.getElementById('daily-agenda-modal');
+    const agendaDate = document.getElementById('agenda-date');
+    const agendaEventList = document.getElementById('agenda-event-list');
+    const closeAgendaButton = document.getElementById('close-agenda-button');
+    const addNewEventFromAgenda = document.getElementById('add-new-event-from-agenda');
+
+
     // --- Navigation ---
     function showScreen(screenToShow) {
         allScreens.forEach(screen => screen.classList.add('hidden'));
@@ -85,22 +94,20 @@ if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("...")) {
         }
     });
 
-    // --- Calendar Initialization & Logic (FIXED!) ---
+    // --- Calendar Initialization & Logic ---
     function initializeCalendar() {
-        if (isCalendarInitialized) return; // Don't re-initialize
+        if (isCalendarInitialized) return;
 
         calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
-            headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
-            dateClick: (info) => {
-                addEventForm.reset();
-                document.getElementById('event-start-date').value = info.dateStr;
-                addEventModal.classList.remove('hidden');
+            headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek' },
+            height: '100%',
+            dateClick: function(info) {
+                openDailyAgenda(info.date);
             },
-            eventClick: (info) => {
+            eventClick: function(info) {
                 alert(`Event: ${info.event.title}\n\n(Future feature: Edit/Delete this event)`);
             },
-            // This ensures the calendar resizes correctly if the window size changes
             windowResize: function() {
                 calendar.updateSize();
             }
@@ -108,6 +115,35 @@ if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("...")) {
         
         calendar.render();
         isCalendarInitialized = true;
+    }
+    
+    function openDailyAgenda(date) {
+        const allEvents = calendar.getEvents();
+        const dayEvents = allEvents.filter(event => {
+            const eventDate = event.start;
+            return eventDate.getFullYear() === date.getFullYear() &&
+                   eventDate.getMonth() === date.getMonth() &&
+                   eventDate.getDate() === date.getDate();
+        });
+
+        const dateString = date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        agendaDate.textContent = `Appointments for ${date.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}`;
+        agendaDate.dataset.date = dateString; // Store the date for adding new events
+
+        agendaEventList.innerHTML = '';
+
+        if (dayEvents.length > 0) {
+            dayEvents.forEach(event => {
+                const eventEl = document.createElement('div');
+                eventEl.className = 'p-3 bg-purple-100 text-purple-800 rounded-md shadow-sm';
+                eventEl.textContent = event.title;
+                agendaEventList.appendChild(eventEl);
+            });
+        } else {
+            agendaEventList.innerHTML = '<p class="text-gray-500">No appointments scheduled for this day.</p>';
+        }
+
+        dailyAgendaModal.classList.remove('hidden');
     }
 
     async function handleAddEvent(e) {
@@ -229,10 +265,8 @@ if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("...")) {
     backToDashboardButton.addEventListener('click', () => showScreen(dashboardScreen));
     backToDashboardFromSchedule.addEventListener('click', () => showScreen(dashboardScreen));
     
-    // CALENDAR FIX: Initialize the calendar only when the card is clicked.
     schedulingCard.addEventListener('click', () => {
         showScreen(schedulingScreen);
-        // Use a short timeout to ensure the element is visible before rendering
         setTimeout(() => {
             initializeCalendar();
         }, 0);
@@ -259,5 +293,18 @@ if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes("...")) {
     // Schedule Actions
     addEventForm.addEventListener('submit', handleAddEvent);
     cancelAddEventButton.addEventListener('click', () => addEventModal.classList.add('hidden'));
+    
+    closeAgendaButton.addEventListener('click', () => {
+        dailyAgendaModal.classList.add('hidden');
+    });
+
+    addNewEventFromAgenda.addEventListener('click', () => {
+        dailyAgendaModal.classList.add('hidden'); // Close agenda
+        addEventForm.reset();
+        document.getElementById('event-start-date').value = agendaDate.dataset.date; // Pre-fill date
+        addEventModal.classList.remove('hidden'); // Show add event modal
+    });
 }
 
+
+    
