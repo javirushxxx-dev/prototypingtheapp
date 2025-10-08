@@ -21,3 +21,9 @@ body {
     border-color: #6b7280; 
 }
 
+/* NEW: Ensure calendar takes full height of its container */
+#calendar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
