@@ -1,29 +1,58 @@
 body { 
     background-color: #f0f2f5; 
     font-family: sans-serif;
+    overflow: hidden;
 }
 
-/* Make calendar header buttons look nice */
+/* Dark Mode Base */
+.dark body {
+    background-color: #111827; /* gray-900 */
+}
+
+/* Calendar Dark Mode Styles */
+.dark .fc {
+    color: #d1d5db; /* gray-300 */
+}
+.dark .fc .fc-button-primary { 
+    background-color: #4f46e5; /* indigo-600 */
+    border-color: #4f46e5;
+    color: white;
+}
+.dark .fc .fc-button-primary:hover { 
+    background-color: #4338ca; /* indigo-700 */
+    border-color: #4338ca; 
+}
+.dark .fc .fc-daygrid-day.fc-day-today {
+    background-color: rgba(79, 70, 229, 0.2); /* indigo-600 with opacity */
+}
+.dark .fc-daygrid-day-number {
+    color: #d1d5db;
+}
+.dark .fc-col-header-cell-cushion {
+    color: #9ca3af; /* gray-400 */
+}
+.dark .fc-border {
+    border-color: #374151; /* gray-700 */
+}
+.dark .fc-event {
+    background-color: #3730a3; /* indigo-800 */
+    border-color: #3730a3;
+}
+
+/* Calendar Light Mode (Original) */
 .fc .fc-button-primary { 
-    background-color: #8b5cf6; 
+    background-color: #8b5cf6;
     border-color: #7c3aed; 
 }
 .fc .fc-button-primary:hover { 
-    background-color: #7c3aed; 
+    background-color: #7c3aed;
     border-color: #7c3aed; 
 }
-.fc .fc-today-button { 
-    background-color: #6b7280; 
-    border-color: #6b7280; 
-}
-.fc .fc-today-button:disabled {
-    background-color: #6b7280; 
-    border-color: #6b7280; 
-}
 
-/* NEW: Ensure calendar takes full height of its container */
 #calendar {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
+
+
