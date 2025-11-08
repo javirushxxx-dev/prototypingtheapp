@@ -1,0 +1,14 @@
+# Secrets & Configs
+config.js
+.env
+app.js
+
+
+# Node/JS Stuff
+*.log
+temp/
+**/temp/
+
+# OS Junk
+.DS_Store
+Thumbs.db
