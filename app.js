@@ -2,14 +2,14 @@ import { initializeApp as initializeFirebaseApp } from "https://www.gstatic.com/
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, doc, addDoc, onSnapshot, getDoc, updateDoc, deleteDoc, query, orderBy, where, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = { 
-    apiKey: "AIzaSyB8dE-UottjPS0dF92H9pfNLO_PcGU05dE", 
-    authDomain: "prototypingtheapp.firebaseapp.com", 
-    projectId: "prototypingtheapp", 
-    storageBucket: "prototypingtheapp.appspot.com", 
-    messagingSenderId: "732357781797", 
-    appId: "1:732357781797:web:0ff864827857c15b8312cc", 
-    measurementId: "G-VSTGVPP0GD"
+const firebaseConfig = {
+  apiKey: "AIzaSyCfmt4_q_GEIIhiEIGWjg_hcOPip_wyMfk",
+  authDomain: "my-ops-hub25.firebaseapp.com",
+  projectId: "my-ops-hub25",
+  storageBucket: "my-ops-hub25.firebasestorage.app",
+  messagingSenderId: "938618427101",
+  appId: "1:938618427101:web:1bf23ebe927b30eef56d34",
+  measurementId: "G-H4H04T9E87"
 };
 
 // This uses the key from your secure config.js file
