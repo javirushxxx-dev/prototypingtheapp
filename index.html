@@ -17,9 +17,9 @@
           document.documentElement.classList.remove('dark')
         }
     </script>
-    
-    <!-- Your main application logic -->
-    <script type="module" src="app.js" defer></script>
+	
+	<script src="config.js"></script>
+	<script type="module" src="app.js" defer></script>
 </head>
 <body class="antialiased text-slate-800 dark:text-slate-200">
 
@@ -193,7 +193,11 @@
                 <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Add New Appointment</h3>
                 <div><input type="text" id="event-title" placeholder="Description" required class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border-transparent rounded-md focus:ring-indigo-500 focus:border-indigo-500"></div>
                 <div><select id="event-client-select" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border-transparent rounded-md focus:ring-indigo-500 focus:border-indigo-500"></select></div>
-                <div><input type="date" id="event-start-date" required class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border-transparent rounded-md focus:ring-indigo-500 focus:border-indigo-500"></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><input type="date" id="event-start-date" required class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border-transparent rounded-md focus:ring-indigo-500 focus:border-indigo-500"></div>
+                    <!-- FIX: Added missing time input field -->
+                    <div><input type="time" id="event-start-time" required class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border-transparent rounded-md focus:ring-indigo-500 focus:border-indigo-500"></div>
+                </div>
                 <div class="flex justify-end gap-4 pt-4">
                     <button id="cancel-add-event-button" type="button" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-800 dark:text-slate-200 font-bold py-2 px-4 rounded-lg">Cancel</button>
                     <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg">Save Appointment</button>
@@ -243,4 +247,3 @@
     
 </body>
 </html>
-
